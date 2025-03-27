@@ -3,7 +3,7 @@ from time import sleep_ms
 from LCDmodule import LCD_1inch14, BL
 
 
-class rocket_class():
+class paddle_class():
     def __init__(self):
         self.x = 90
         self.width = 40
@@ -24,32 +24,32 @@ class ball_class():
         LCD.ellipse(self.x, self.y, 4, 4, LCD.blue, True)
 
     def bounce(self):
-        if (rocket_instance.x - 3) < self.x < (rocket_instance.x + rocket_instance.width + 3):
+        if (paddle_instance.x - 3) < self.x < (paddle_instance.x + paddle_instance.width + 3):
             self.directionV = -1
-            rocket_instance.score += 1
+            paddle_instance.score += 1
 
 
 def counter():
-    if rocket_instance.score >= 100:
+    if paddle_instance.score >= 100:
         LCD.hline(160, 0, 80, LCD.red)
         LCD.hline(160, 15, 80, LCD.red)
         LCD.vline(160, 0, 15, LCD.red)
         LCD.vline(239, 0, 15, LCD.red)
-        LCD.text(f"Score:{rocket_instance.score}", 165, 5, LCD.green)
+        LCD.text(f"Score:{paddle_instance.score}", 165, 5, LCD.green)
 
-    elif rocket_instance.score >= 10:
+    elif paddle_instance.score >= 10:
         LCD.hline(170, 0, 80, LCD.red)
         LCD.hline(170, 15, 80, LCD.red)
         LCD.vline(170, 0, 15, LCD.red)
         LCD.vline(239, 0, 15, LCD.red)
-        LCD.text(f"Score:{rocket_instance.score}", 175, 5, LCD.green)
+        LCD.text(f"Score:{paddle_instance.score}", 175, 5, LCD.green)
 
     else:
         LCD.hline(180, 0, 80, LCD.red)
         LCD.hline(180, 15, 80, LCD.red)
         LCD.vline(180, 0, 15, LCD.red)
         LCD.vline(239, 0, 15, LCD.red)
-        LCD.text(f"Score:{rocket_instance.score}", 183, 5, LCD.green)
+        LCD.text(f"Score:{paddle_instance.score}", 183, 5, LCD.green)
 
 
 if __name__=='__main__':
@@ -58,7 +58,7 @@ if __name__=='__main__':
     pwm.duty_u16(32768) # max 65535
     # 32768
     LCD = LCD_1inch14()
-    rocket_instance = rocket_class()
+    paddle_instance = paddle_class()
     ball_instance = ball_class()
     # color BRG
     LCD.fill(LCD.black)
@@ -69,14 +69,14 @@ if __name__=='__main__':
     while True:
         LCD.fill(LCD.black)
 
-        rocket_instance.spawn()
+        paddle_instance.spawn()
         ball_instance.spawn()
         ball_instance.x += 1*ball_instance.directionH # movement left-right
-        if move_left.value() == 0 and rocket_instance.x > 0:
-            rocket_instance.x -= 5
+        if move_left.value() == 0 and paddle_instance.x > 0:
+            paddle_instance.x -= 5
 
-        if move_right.value() == 0 and rocket_instance.x < 240-rocket_instance.width:
-            rocket_instance.x += 5
+        if move_right.value() == 0 and paddle_instance.x < 240-paddle_instance.width:
+            paddle_instance.x += 5
 
         ball_instance.x += ball_instance.directionH*2
 
